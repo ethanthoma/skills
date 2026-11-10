@@ -237,6 +237,30 @@ benefit.
 
 Do not broaden the scope of a task merely to rewrite unrelated tests.
 
+## Formal verification and model correspondence
+
+Use formal verification when the requested property and risk justify it. Choose the
+lowest-cost suitable tool: direct proofs or code-level verifiers for implementation
+properties, model checkers for event ordering and bounded state exploration. Do not
+introduce a separate model or proof tool when existing verification answers the question.
+
+- State the property and the consequence of violating it in plain language.
+- Map checked definitions and transitions to actual files and functions. A model's atomic
+  steps must match implementation atomicity or explicitly justify the abstraction.
+- Record assumptions, bounds, excluded behavior, tool versions, and exact rerun commands.
+  Distinguish bounded exploration from an unbounded proof and model results from code results.
+- For new or materially changed checks, confirm failure sensitivity with a relevant defect
+  in an isolated scratch worktree. Require a failure attributable to the target property,
+  not broken syntax or setup. Discard the mutation and rerun the baseline check.
+  This tests the check's relevance, not its soundness or completeness; report any skipped check.
+- Report violations with a counterexample or failed obligation in implementation terms.
+  Do not weaken the property or hide reachable behavior to obtain a pass. Distinguish
+  specification errors from code defects; do not change unrelated product code without approval.
+- Keep a concise coverage record beside verification artifacts. Revisit correspondence
+  whenever covered code changes; if recording a reviewed revision, advance it only after review.
+- Keep project-specific commands and properties in existing verification documentation.
+  Do not generate a new skill for each verification target or require unrelated plugin tools.
+
 ## 8. Reporting
 
 For routine changes, apply these principles without a lengthy

@@ -27,3 +27,23 @@ CUDA, Metal, and JavaScript. Source and docs: https://github.com/bendlang/bend
     the JavaScript target.
 - So: put the law-bearing core (state machines, protocol rules, numerics) in
   Bend, and keep IO, JSON, and process handling in a Rust shell around it.
+
+## Proofs tied to the implementation
+
+- Express each law using the actual core definitions and transitions where possible.
+  If a separate model is necessary, document its correspondence to the implementation;
+  a proof about that model alone does not establish implementation correctness.
+- Keep project-specific properties and coverage beside `LAWS.bend` and `PROOF.bend`,
+  not in a new generated skill. Identify covered definitions, assumptions, and exclusions.
+- Verify the installed version's syntax and checker options with `bend guide`. Record
+  the exact Bend revision, proof command, and checker mode used so checks are reproducible.
+- For a new or materially changed verification check, use an isolated scratch worktree
+  to introduce a relevant implementation defect and confirm the check rejects it.
+  A syntax error is not evidence that the intended property catches the defect.
+  Discard the scratch change and rerun the original check; report if this was not feasible.
+- When implementation or laws change, review their correspondence before accepting a pass.
+  Do not weaken a law simply to make a failing implementation pass. Explain specification
+  changes separately from implementation defects and obtain approval for behavior changes.
+- State the proof boundary explicitly: proving the Bend core does not by itself verify
+  the Rust shell, foreign calls, compiler backends, or deployed system. Use integration
+  checks or independent references for those boundaries as appropriate.
