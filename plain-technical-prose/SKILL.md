@@ -24,6 +24,32 @@ Produce writing that communicates the author's actual claims without rhetorical 
 6. Read again as a newcomer. Does the document explain current behavior without relying on knowledge of previous versions or the author's editing history?
 7. Compare original and rewrite claim by claim. Retain numbers, names, dates, quotations, citations, scope, uncertainty, comparisons, negations, conditions, and the author's judgments. Report contradictions separately instead of guessing which claim is true.
 
+## Documentation structure and procedures
+
+Apply this guidance when drafting or restructuring documentation, not as a reason
+to reorganize a document during a narrowly scoped prose edit.
+
+- Identify the reader's task and assumed knowledge before choosing a structure.
+  Use Diátaxis as a guide: tutorials teach through a concrete exercise, how-to guides
+  solve a task, reference documents support lookup, and explanations develop understanding.
+  A README may combine clearly separated sections; do not force every document into one mode.
+- Use the codebase's actual symbols, paths, flags, and commands. Name each concept
+  consistently, and explain unfamiliar terms rather than inventing synonyms or jargon.
+- For procedures, state prerequisites and place conditions or warnings before the actions
+  they govern. Use direct instructions and numbered steps when order matters. Include
+  expected results at meaningful checkpoints; distinguish verified output from illustrative output.
+- Put the common path first and keep background out of the step sequence when it interrupts
+  the task. Link supporting explanations or reference details with descriptive link text.
+- Use task-oriented headings for procedures and descriptive headings for concepts.
+  Keep lists parallel and use bullets when order does not matter.
+- Resolve ambiguous pronouns, long noun strings, misplaced qualifiers, and unclear grouping
+  of conditions. Retain articles and connective words when they clarify meaning.
+- Match code examples to the language and repository's formatting conventions. Check commands,
+  paths, and example output against the implementation when feasible; report unverified details.
+- Preserve necessary uncertainty, recommendations, and author voice. Sentence length and
+  punctuation are tools for clarity, not quotas or bans. Leave commit-specific conventions
+  to the applicable commit guidance rather than applying documentation structure to short messages.
+
 ## Examples
 
 - Staged: "But here's the real insight: the shader isn't slow. The pipeline is."
