@@ -20,9 +20,11 @@ Produce writing that communicates the author's actual claims without rhetorical 
 2. Preserve the author's voice. Given writing samples, prefer their vocabulary, cadence, and level of formality to generic rules.
 3. Remove rhetorical staging: negation-first reveals, coy headings, artificial suspense, significance announcements, aphoristic conclusions, forced contrasts, repeated rhetorical questions, and generic summary endings.
 4. Remove chatbot residue: unnecessary introductions, inflated adjectives, vague claims of importance, formulaic triads, filler, repeated paraphrases, and unsupported certainty.
-5. Watch for overcorrection: clipped verdicts, grand absolute negatives, performative candor, excessive hyphenated compounds, noun stacks, dropped conjunctions, and monotonous short sentences. Plain writing need not be terse.
-6. Read again as a newcomer. Does the document explain current behavior without relying on knowledge of previous versions or the author's editing history?
-7. Compare original and rewrite claim by claim. Retain numbers, names, dates, quotations, citations, scope, uncertainty, comparisons, negations, conditions, and the author's judgments. Report contradictions separately instead of guessing which claim is true.
+5. Check vague attribution such as "experts believe" or "reports suggest". Name a source when the available evidence identifies it; otherwise flag the unsupported attribution. Do not invent a source, imply consensus, or silently delete a substantive claim.
+6. Replace vague descriptions of how something feels with the supported mechanism or observable behavior. If the mechanism is unknown, flag the vagueness rather than fabricate precision. Shared wording is not itself a defect when the instruction is useful.
+7. Watch for overcorrection: clipped verdicts, grand absolute negatives, performative candor, excessive hyphenated compounds, noun stacks, dropped conjunctions, and monotonous short sentences. Plain writing need not be terse.
+8. Read again as a newcomer. Does the document explain current behavior without relying on knowledge of previous versions or the author's editing history?
+9. Compare original and rewrite claim by claim. Retain numbers, names, dates, quotations, citations, scope, uncertainty, comparisons, negations, conditions, and the author's judgments. Report contradictions separately instead of guessing which claim is true.
 
 ## Documentation structure and procedures
 
@@ -35,6 +37,8 @@ to reorganize a document during a narrowly scoped prose edit.
   A README may combine clearly separated sections; do not force every document into one mode.
 - Use the codebase's actual symbols, paths, flags, and commands. Name each concept
   consistently, and explain unfamiliar terms rather than inventing synonyms or jargon.
+  Avoid synonym cycling: do not alternate "worker", "executor", and "agent" for the
+  same component merely for variety. Preserve distinctions when those names mean different things.
 - For procedures, state prerequisites and place conditions or warnings before the actions
   they govern. Use direct instructions and numbered steps when order matters. Include
   expected results at meaningful checkpoints; distinguish verified output from illustrative output.
