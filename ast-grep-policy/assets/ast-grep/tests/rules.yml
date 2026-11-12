@@ -1,0 +1,81 @@
+id: rust-unwrap
+valid:
+  - 'fn f(value: Option<u32>) -> Option<u32> { value }'
+  - '#[cfg(test)] mod tests { fn f() { value.unwrap(); } }'
+  - '#[test] fn f() { value.unwrap(); }'
+  - '#[tokio::test] async fn f() { value.unwrap(); }'
+  - "#[cfg( test )]\n// Test module.\nmod tests { fn f() { value.unwrap(); } }"
+invalid:
+  - 'fn f() { value.unwrap(); }'
+  - 'fn f() { nested.value.unwrap(); }'
+---
+id: rust-expect
+valid:
+  - '#[cfg(test)] mod tests { fn f() { value.expect("fixture"); } }'
+  - '#[tokio::test] async fn f() { value.expect("fixture"); }'
+invalid:
+  - 'fn f() { value.expect("exists"); }'
+---
+id: rust-abort-macro
+valid:
+  - '#[cfg(test)] mod tests { fn f() { panic!("fixture"); } }'
+  - 'fn f() { assert!(ready); }'
+invalid:
+  - 'fn f() { panic!("failed"); }'
+  - 'fn f() { std::unreachable!(); }'
+  - 'fn f() { todo!(); }'
+  - 'fn f() { unimplemented!(); }'
+---
+id: rust-empty-catchall
+valid:
+  - 'fn f() { match value { None => {}, Some(value) => use_value(value) } }'
+  - '#[cfg(test)] mod tests { fn f() { match value { _ => {} } } }'
+invalid:
+  - 'fn f() { match value { _ => {} } }'
+  - 'fn f() { match value { _ => () } }'
+---
+id: rust-discard-result
+valid:
+  - 'fn f() { let value = operation(); }'
+  - '#[cfg(test)] mod tests { fn f() { let _ = operation(); } }'
+invalid:
+  - 'fn f() { let _ = operation(); }'
+---
+id: rust-deferral-comment
+valid:
+  - 'fn f() { let text = "temporary"; }'
+  - '#[cfg(test)] mod tests { /* workaround */ fn f() {} }'
+invalid:
+  - '// For now, ignore failure.'
+  - '/* Temporary fallback. */'
+  - '// Workaround until later.'
+---
+id: rust-host-path
+valid:
+  - 'fn f() { let route = "/static/logo.svg"; }'
+  - '#[cfg(test)] mod tests { fn f() { let path = "/tmp/fixture"; } }'
+invalid:
+  - 'fn f() { let path = "/home/user/state"; }'
+  - 'fn f() { let path = r"/tmp/state"; }'
+---
+id: browser-empty-catch
+valid:
+  - 'try { save(); } catch (error) { show_error(error); }'
+invalid:
+  - 'try { save(); } catch {}'
+  - 'try { save(); } catch (error) {}'
+  - 'try { save(); } catch { /* Ignored. */ }'
+---
+id: browser-deferral-comment
+valid:
+  - 'const text = "temporary";'
+invalid:
+  - '// Workaround until later.'
+  - '/* For now, skip the error. */'
+---
+id: browser-host-path
+valid:
+  - 'const route = "/needle";'
+invalid:
+  - 'const path = "/home/user/data";'
+  - "const path = '/tmp/data';"

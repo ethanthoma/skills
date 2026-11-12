@@ -1,0 +1,104 @@
+id: rust-unwrap
+language: Rust
+severity: error
+message: Handle the error or missing value explicitly instead of calling unwrap.
+files: [src/**/*.rs]
+ignores: [src/**/tests/**, src/**/tests.rs, src/**/*_tests.rs, src/**/test_*.rs]
+rule:
+  kind: call_expression
+  has:
+    field: function
+    regex: '\.unwrap$'
+  not:
+    inside:
+      stopBy: end
+      matches: cfg-test-item
+---
+id: rust-expect
+language: Rust
+severity: error
+message: Propagate operational failures or encode the invariant in ownership instead of expect.
+files: [src/**/*.rs]
+ignores: [src/**/tests/**, src/**/tests.rs, src/**/*_tests.rs, src/**/test_*.rs]
+rule:
+  kind: call_expression
+  has:
+    field: function
+    regex: '\.expect$'
+  not:
+    inside:
+      stopBy: end
+      matches: cfg-test-item
+---
+id: rust-abort-macro
+language: Rust
+severity: error
+message: Return a contextual error or make the state unrepresentable instead of aborting or leaving a stub.
+files: [src/**/*.rs]
+ignores: [src/**/tests/**, src/**/tests.rs, src/**/*_tests.rs, src/**/test_*.rs]
+rule:
+  kind: macro_invocation
+  regex: '^(?:(?:std|core)::)?(?:panic|unreachable|todo|unimplemented)!'
+  not:
+    inside:
+      stopBy: end
+      matches: cfg-test-item
+---
+id: rust-empty-catchall
+language: Rust
+severity: error
+message: Name the ignored variants and handle failures instead of silently ignoring every other case.
+files: [src/**/*.rs]
+ignores: [src/**/tests/**, src/**/tests.rs, src/**/*_tests.rs, src/**/test_*.rs]
+rule:
+  kind: match_arm
+  regex: '^_\s*=>\s*(?:\{\s*\}|\(\s*\))'
+  not:
+    inside:
+      stopBy: end
+      matches: cfg-test-item
+---
+id: rust-discard-result
+language: Rust
+severity: error
+message: Inspect the result and handle failure or termination explicitly instead of discarding it.
+files: [src/**/*.rs]
+ignores: [src/**/tests/**, src/**/tests.rs, src/**/*_tests.rs, src/**/test_*.rs]
+rule:
+  pattern: let _ = $VALUE;
+  not:
+    inside:
+      stopBy: end
+      matches: cfg-test-item
+---
+id: rust-deferral-comment
+language: Rust
+severity: error
+message: Resolve the incomplete behavior or document a precise external constraint instead of a vague deferral.
+files: [src/**/*.rs]
+ignores: [src/**/tests/**, src/**/tests.rs, src/**/*_tests.rs, src/**/test_*.rs]
+rule:
+  any:
+    - kind: line_comment
+    - kind: block_comment
+  regex: '(?i)\b(for now|workaround|temporary)\b'
+  not:
+    inside:
+      stopBy: end
+      matches: cfg-test-item
+---
+id: rust-host-path
+language: Rust
+severity: error
+message: Obtain host-specific paths from validated configuration or a temporary-directory API.
+files: [src/**/*.rs]
+ignores: [src/**/tests/**, src/**/tests.rs, src/**/*_tests.rs, src/**/test_*.rs]
+rule:
+  any:
+    - kind: string_literal
+    - kind: raw_string_literal
+  regex: '"/(home|Users|tmp)/'
+  not:
+    inside:
+      stopBy: end
+      matches: cfg-test-item

@@ -1,0 +1,18 @@
+id: cfg-test-item
+language: Rust
+rule:
+  any:
+    - kind: mod_item
+    - kind: function_item
+    - kind: impl_item
+    - kind: const_item
+    - kind: static_item
+  follows:
+    stopBy:
+      not:
+        any:
+          - kind: attribute_item
+          - kind: line_comment
+          - kind: block_comment
+    kind: attribute_item
+    regex: '^#\[\s*(test|[a-zA-Z_][a-zA-Z_0-9]*::test|cfg\s*\(\s*test\s*\))\s*\]$'
