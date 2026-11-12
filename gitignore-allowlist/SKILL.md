@@ -1,4 +1,3 @@
-
 ---
 name: gitignore-allowlist
 description: >
