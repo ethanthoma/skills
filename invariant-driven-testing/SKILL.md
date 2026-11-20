@@ -34,10 +34,14 @@ Apply these approaches in preference order where appropriate:
    static assertions, const evaluation, and compile-time constraints.
 2. **Runtime invariants:** Assertions enforcing properties that must
    always hold during correct execution.
-3. **State-space exploration:** Property-based testing, fuzzing,
-   randomized operation sequences, fault injection, and deterministic
-   simulation.
-4. **Targeted example tests:** Tests for regressions, external contracts,
+3. **State-space exploration:** Prefer [Hegel](https://hegel.dev/) for
+   property-based tests where it supports the project's language and toolchain.
+   Otherwise use the established property-testing library. Add fuzzing or
+   deterministic simulation when they explore distinct failures.
+4. **Snapshots:** Capture stable observable output before refactoring and to
+   prevent regressions. Use an established snapshot library, normalize only
+   nondeterminism, and review diffs before accepting updates.
+5. **Targeted example tests:** Tests for regressions, external contracts,
    known edge cases, and behavior not adequately covered above.
 
 This is a preference hierarchy, not a requirement to use every technique
@@ -91,8 +95,10 @@ Distinguish:
 
 Never use assertions as a substitute for validating untrusted input.
 
-Keep critical assertions active in production when practical. Understand
-the language's build-mode behavior before relying on assertions.
+Prefer development-only assertions for diagnostic checks that are safe to
+remove. Keep release-critical checks active and verify which build modes
+strip assertions. Input validation and operational error handling must run in
+all builds.
 
 Assertions must not contain essential side effects.
 
@@ -140,7 +146,8 @@ Do not mistake a successful finite test run for proof of liveness.
 
 ## 5. Use example-based tests deliberately
 
-Write conventional tests when they provide distinct value:
+Use conventional examples only when assertions, properties, and snapshots
+cannot adequately cover the contract or failure:
 
 - Reproducing a specific reported bug.
 - Verifying a public API or compatibility contract.

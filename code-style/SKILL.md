@@ -15,7 +15,8 @@ small cohesive functions, and predictable control flow.
 
 Draw from Google's language-specific style guides, Jonathan Blow's
 emphasis on direct programming, tinygrad's compact implementation
-style, and TigerBeetle's engineering discipline.
+style, [TigerStyle](https://github.com/tigerbeetle/tigerbeetle/blob/main/docs/TIGER_STYLE.md),
+and NASA's Power of Ten rules for bounded, explicit control flow.
 
 Prefer clarity, correctness, performance, and maintainability over
 brevity, cleverness, or architectural ceremony.
@@ -217,7 +218,8 @@ Favor:
 - Data flowing through explicit transformations.
 - Independent operations with narrow interfaces.
 - Functions that can be reasoned about in isolation.
-- Separation of computation from side effects where useful.
+- Small, pure transformations composed at the call site; keep I/O and other
+  side effects at the boundary.
 - Composition at the level where the complete behavior is visible.
 
 Avoid:
@@ -258,6 +260,9 @@ For broader architectural decisions, use `minimize-complexity`.
 
 Follow Tiger-style engineering principles:
 
+- Model state machines explicitly with sum types and exhaustive matches. Parse
+  strings into typed variants at boundaries; do not dispatch internal transitions
+  on strings or scattered flags. Prefer matches over chains that decode state.
 - Make illegal states unrepresentable where practical.
 - Assert internal invariants.
 - Handle external failures explicitly.
@@ -309,8 +314,12 @@ external constraints.
 
 ## 9. Formatting
 
-The user's Neovim Conform configuration is the preferred source
-of formatter selection.
+Choose a formatter and settings that implement the applicable Google style
+where supported, with explicit project conventions taking precedence. Pin the
+formatter in the project dev shell and share its configuration across CLI, CI,
+and Neovim Conform. Check `:ConformInfo` from a project buffer in that shell;
+verify the selected executable and compare its output with the CLI. Do not
+silently rely on LSP fallback when a project formatter is required.
 
 Before formatting:
 
@@ -368,7 +377,7 @@ language conventions and the repository's configuration.
 
 ### Nix
 
-- Follow the configured Nix formatter.
+- Use `pkgs.nixfmt`; the Conform formatter is `nixfmt`.
 - Preserve Nix language syntax and established option names.
 - Prefer small, explicit modules.
 - Avoid unnecessary indirection and repeated configuration.

@@ -9,6 +9,26 @@ Turn selected repository policies into tested structural checks. Preserve the
 repository's language choices, tooling, and source boundaries. Use `rg` for plain
 text discovery. Use ast-grep when syntax or ancestry changes what should match.
 
+## Bootstrap project checks
+
+Use [the flake starter](assets/project/flake.nix) for the required inputs,
+dev shell, and Nix formatter. Merge into existing flakes rather than replacing
+outputs. Set systems to the project's supported targets and commit the lockfile.
+Add the actual language formatter and native linter (for Rust, rustfmt and
+Clippy using the project toolchain). Confirm that the editor uses the same
+formatter and configuration.
+
+Expose one documented check entry point that fails on formatter drift, native
+lint failures, ast-grep findings, and failing rule fixtures. Run that same entry
+point from the locked dev shell locally and in required CI. Verify that a known
+violation makes the gate fail; a package in the shell or a config file alone
+does not enforce anything.
+
+Use type-aware tools for semantic policies and ast-grep for precise syntax
+patterns. Judge function boundaries, naming clarity, and whether a state machine
+is explicit in review; do not approximate those properties with arbitrary
+length thresholds or broad bans on conditionals or strings.
+
 ## Adopt or maintain
 
 1. Read repository guidance and existing scanner configuration, CI, and formatter
