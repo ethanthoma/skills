@@ -153,6 +153,20 @@ Look for:
 - APIs that expose implementation details.
 - Missing ownership or lifecycle boundaries.
 
+Inspect dependency direction at both module and item level. A module graph
+can appear acyclic while types and functions across parent and child modules
+still depend on each other. For each cycle, identify the intended abstraction
+layers and which component should own the shared concept. Move coordination
+to the layer that owns the operation rather than adding indirection to hide
+the cycle.
+
+Review related field accesses together. If callers manipulate a component's
+collections, indices, or bookkeeping, identify the operations and invariants
+those callers are implementing. Put those operations with the state they
+protect when that reduces coupling. Plain data does not need encapsulation
+for its own sake; replacing each field access with a getter or setter does
+not establish a useful boundary.
+
 Identify the highest-leverage structural change.
 
 Prefer a small correction to a foundational mistake over a large
@@ -179,10 +193,16 @@ Consider whether the problem can be eliminated through:
 - A more appropriate computational model.
 
 An abstraction is useful when it removes complexity from the total
-system.
+system. Compare what a caller must understand about its interface with
+what the implementation lets the caller ignore. Prefer a narrow set of
+coherent operations that hides meaningful decisions, not merely fewer
+public symbols. A broad interface with little hidden behavior is a reason
+to inspect the boundary, not proof that it needs another facade.
 
 Reject abstractions that merely move complexity into additional
-layers.
+layers. Do not add pass-through wrappers or mechanically move code to
+improve a structural metric. Evaluate the callers and implementation
+together; preserve direct access when it is the clearest design.
 
 Prefer one explicit mechanism over several interacting special cases.
 
@@ -311,7 +331,17 @@ invalidate the design.
 
 Identify the smallest safe sequence of changes.
 
-Keep the report concise and grounded in actual code.
+Keep the report concise and grounded in actual code. For substantial
+boundary or dependency changes, include a small before/after diagram when
+it makes ownership or dependency direction easier to understand.
+
+## Sources
+
+The dependency and interface review guidance incorporates ideas from
+[deslop-please](https://github.com/deterministic-machines/deslop-please),
+which applies John Ousterhout's deep-module and narrow-interface principles
+to Rust architecture. Use these as review questions, not mandatory numeric
+thresholds.
 
 ## Related skills
 
